@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -95,51 +95,65 @@ const mockMolecules = [
 ];
 
 const MoleculeStructure = ({ smiles, size = "large" }) => {
-  const [imageError, setImageError] = useState(false);
-  const dimensions = size === "large" ? "w-full h-96" : "w-24 h-24";
-  const imgSize = size === "large" ? "large" : "small";
+  const canvasRef = useRef(null);
+  const [rdkit, setRdkit] = useState(null);
+  const [error, setError] = useState(false);
 
-  // Use PubChem's image API - it generates images from SMILES
-  const imageUrl = `https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/smiles/${encodeURIComponent(
-    smiles
-  )}/PNG?image_size=${imgSize}`;
+  const dimensions =
+    size === "large" ? { width: 400, height: 300 } : { width: 96, height: 96 };
 
-  if (imageError || !smiles) {
+  // Load the RDKit module once
+  useEffect(() => {
+    window.initRDKitModule().then((RDKit) => {
+      setRdkit(RDKit);
+    });
+  }, []);
+
+  // Draw the molecule whenever the smiles or rdkit module changes
+  useEffect(() => {
+    setError(false);
+    if (rdkit && canvasRef.current && smiles) {
+      try {
+        const mol = rdkit.get_mol(smiles);
+        if (mol) {
+          const svg = mol.get_svg(dimensions.width, dimensions.height);
+          const canvas = canvasRef.current;
+          const ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous drawing
+
+          const img = new Image();
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+          };
+          img.src = "data:image/svg+xml;base64," + btoa(svg);
+          mol.delete(); // Free up memory
+        } else {
+          setError(true); // Handle invalid SMILES
+        }
+      } catch (e) {
+        console.error("RDKit drawing error:", e);
+        setError(true);
+      }
+    } else if (!smiles) {
+      setError(true);
+    }
+  }, [rdkit, smiles, dimensions.width, dimensions.height]);
+
+  const containerClasses = `bg-white border-2 rounded-xl flex items-center justify-center shadow-sm overflow-hidden ${
+    size === "large" ? "w-full h-96" : "w-24 h-24"
+  }`;
+
+  if (error) {
     return (
-      <div
-        className={`${dimensions} bg-white border-2 border-blue-200 rounded-xl flex items-center justify-center shadow-sm overflow-hidden`}
-      >
-        <div className="text-center p-4">
-          <svg
+      <div className={`${containerClasses} border-red-200`}>
+        <div className="text-center p-2">
+          <FlaskConical
             className={`mx-auto ${
-              size === "large" ? "w-20 h-20" : "w-10 h-10"
-            } text-blue-500 mb-2`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M13 10V3L4 14h7v7l9-11h-7z"
-            ></path>
-          </svg>
-          <p
-            className={`text-blue-600 font-medium ${
-              size === "large" ? "text-base" : "text-xs"
-            }`}
-          >
-            Structure Preview
-          </p>
-          <p
-            className={`text-blue-400 ${
-              size === "large" ? "text-sm" : "text-xs"
-            } mt-1 break-all px-2`}
-          >
-            {smiles
-              ? smiles.slice(0, size === "large" ? 40 : 15) + "..."
-              : "No SMILES data"}
+              size === "large" ? "w-16 h-16" : "w-8 h-8"
+            } text-red-400 mb-2`}
+          />
+          <p className="text-red-600 font-semibold text-xs">
+            Structure Invalid
           </p>
         </div>
       </div>
@@ -147,22 +161,11 @@ const MoleculeStructure = ({ smiles, size = "large" }) => {
   }
 
   return (
-    <div
-      className={`${dimensions} bg-white border-2 border-blue-200 rounded-xl flex items-center justify-center shadow-sm overflow-hidden`}
-    >
-      <img
-        src={imageUrl}
-        alt={`Molecular structure: ${smiles}`}
-        className="max-w-full max-h-full object-contain p-4"
-        onError={() => {
-          console.error(`Failed to load structure image for SMILES: ${smiles}`);
-          setImageError(true);
-        }}
-        onLoad={() => {
-          console.log(
-            `✅ Successfully loaded structure for: ${smiles.slice(0, 20)}...`
-          );
-        }}
+    <div className={`${containerClasses} border-blue-200`}>
+      <canvas
+        ref={canvasRef}
+        width={dimensions.width}
+        height={dimensions.height}
       />
     </div>
   );
