@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+  useParams,
+  Link,
+} from "react-router-dom";
+import {
   Search,
   ChevronRight,
   Home,
@@ -392,13 +400,29 @@ const SearchResults = ({
   </div>
 );
 
-const MoleculeDetail = ({ selectedMolecule, setCurrentView }) => {
-  if (!selectedMolecule) return null;
+const MoleculeDetail = ({ molecules }) => {
+  const { moleculeId } = useParams();
+  const navigate = useNavigate();
+  const selectedMolecule = molecules.find((mol) => mol.id === moleculeId);
+
+  if (!selectedMolecule) {
+    return (
+      <div className="text-center p-16">
+        <h2 className="text-2xl font-bold">Molecule not found</h2>
+        <button
+          onClick={() => navigate("/search")}
+          className="mt-4 text-blue-600"
+        >
+          Go back to search
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div>
       <button
-        onClick={() => setCurrentView("search")}
+        onClick={() => navigate("/search")}
         className="mb-8 text-blue-600 hover:text-blue-700 flex items-center gap-2 font-semibold text-lg bg-blue-50 px-4 py-2 rounded-full hover:bg-blue-100 transition"
       >
         <ChevronRight className="w-5 h-5 transform rotate-180" />
@@ -555,13 +579,13 @@ const MoleculeDetail = ({ selectedMolecule, setCurrentView }) => {
   );
 };
 
-const MolecularDatabase = () => {
+// New component to handle the main app logic
+const AppContent = () => {
   const [searchInput, setSearchInput] = useState("");
-  const [selectedMolecule, setSelectedMolecule] = useState(null);
   const [molecules, setMolecules] = useState(mockMolecules);
   const [filteredMolecules, setFilteredMolecules] = useState(mockMolecules);
-  const [currentView, setCurrentView] = useState("home");
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Filter molecules when search input changes
   useEffect(() => {
@@ -581,28 +605,17 @@ const MolecularDatabase = () => {
   }, [searchInput, molecules]);
 
   const handleSearchClick = () => {
-    if (currentView !== "search") {
-      setCurrentView("search");
-    }
+    navigate("/search");
   };
 
   const handleSearchKeyPress = (e) => {
     if (e.key === "Enter") {
-      if (currentView !== "search") {
-        setCurrentView("search");
-      }
+      navigate("/search");
     }
   };
 
   const viewMoleculeDetail = (molecule) => {
-    setSelectedMolecule(molecule);
-    setCurrentView("detail");
-  };
-
-  const goHome = () => {
-    setCurrentView("home");
-    setSelectedMolecule(null);
-    setSearchInput("");
+    navigate(`/molecule/${molecule.id}`);
   };
 
   // Estimate physical properties based on molecular structure
@@ -732,8 +745,8 @@ const MolecularDatabase = () => {
       <nav className="bg-white shadow-lg border-b-2 border-blue-100">
         <div className="max-w-7xl mx-auto px-6 py-5">
           <div className="flex items-center justify-between">
-            <button
-              onClick={goHome}
+            <Link
+              to="/"
               className="flex items-center gap-3 hover:opacity-90 transition group"
             >
               <div className="bg-gradient-to-br from-blue-500 to-indigo-600 p-2 rounded-xl group-hover:scale-105 transition">
@@ -742,54 +755,60 @@ const MolecularDatabase = () => {
               <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
                 BrainRoute-DB
               </span>
-            </button>
+            </Link>
             <div className="flex items-center gap-6">
-              <button
-                onClick={goHome}
+              <Link
+                to="/"
                 className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition font-medium px-4 py-2 rounded-lg hover:bg-blue-50"
               >
                 <Home className="w-5 h-5" />
                 <span>Home</span>
-              </button>
-              <button
-                onClick={() => setCurrentView("search")}
+              </Link>
+              <Link
+                to="/search"
                 className="flex items-center gap-2 text-gray-700 hover:text-blue-600 transition font-medium px-4 py-2 rounded-lg hover:bg-blue-50"
               >
                 <Search className="w-5 h-5" />
                 <span>Search</span>
-              </button>
+              </Link>
             </div>
           </div>
         </div>
       </nav>
 
       <main className="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
-        {currentView === "home" && (
-          <HomePage
-            isLoading={isLoading}
-            searchInput={searchInput}
-            setSearchInput={setSearchInput}
-            handleSearchKeyPress={handleSearchKeyPress}
-            handleSearchClick={handleSearchClick}
-            molecules={molecules}
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                isLoading={isLoading}
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                handleSearchKeyPress={handleSearchKeyPress}
+                handleSearchClick={handleSearchClick}
+                molecules={molecules}
+              />
+            }
           />
-        )}
-        {currentView === "search" && (
-          <SearchResults
-            searchInput={searchInput}
-            setSearchInput={setSearchInput}
-            handleSearchKeyPress={handleSearchKeyPress}
-            handleSearchClick={handleSearchClick}
-            filteredMolecules={filteredMolecules}
-            viewMoleculeDetail={viewMoleculeDetail}
+          <Route
+            path="/search"
+            element={
+              <SearchResults
+                searchInput={searchInput}
+                setSearchInput={setSearchInput}
+                handleSearchKeyPress={handleSearchKeyPress}
+                handleSearchClick={handleSearchClick}
+                filteredMolecules={filteredMolecules}
+                viewMoleculeDetail={viewMoleculeDetail}
+              />
+            }
           />
-        )}
-        {currentView === "detail" && (
-          <MoleculeDetail
-            selectedMolecule={selectedMolecule}
-            setCurrentView={setCurrentView}
+          <Route
+            path="/molecule/:moleculeId"
+            element={<MoleculeDetail molecules={molecules} />}
           />
-        )}
+        </Routes>
       </main>
 
       <footer className="bg-white border-t-2 border-blue-100 mt-12">
@@ -811,6 +830,14 @@ const MolecularDatabase = () => {
         </div>
       </footer>
     </div>
+  );
+};
+
+const MolecularDatabase = () => {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
   );
 };
 
