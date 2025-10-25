@@ -658,9 +658,9 @@ const AppContent = () => {
   const fetchFromGoogleSheets = useCallback(async () => {
     setIsLoading(true);
     try {
-      const SHEET_ID = "1sCVKMH_n-Uc-LLPxKhUi1g-XmKVOSlUQZGwrsrDVP_4";
-      const API_KEY = "AIzaSyAnRLylCv-56R9nDbj3pRwXiDQddC5H5pY";
-      const RANGE = "Sheet1!A2:HP";
+      const SHEET_ID = process.env.REACT_APP_GOOGLE_SHEET_ID;
+      const API_KEY = process.env.REACT_APP_GOOGLE_SHEETS_API_KEY;
+      const RANGE = process.env.REACT_APP_GOOGLE_SHEET_RANGE;
 
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${RANGE}?key=${API_KEY}`;
       console.log("Fetching from:", url);
@@ -824,7 +824,7 @@ const AppContent = () => {
               <Info className="w-4 h-4 text-blue-600" />
               <span className="text-blue-600 font-medium">
                 Integrated with{" "}
-                <a href="https://huggingface.co/spaces/Nnobody/NeuroGate">
+                <a href="https://huggingface.co/spaces/Nnobody/brainroute">
                   BrainRoute Platform
                 </a>
               </span>

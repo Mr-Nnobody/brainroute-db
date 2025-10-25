@@ -1,70 +1,241 @@
-# Getting Started with Create React App
+# 🧠 BrainRoute Database
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![BrainRoute Banner](https://img.shields.io/badge/BrainRoute-Database-blue?style=for-the-badge&logo=react)
+![React](https://img.shields.io/badge/React-19.2.0-61DAFB?style=flat-square&logo=react)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-## Available Scripts
+A sophisticated **Molecular Intelligence Platform** for exploring Blood-Brain Barrier (BBB) permeable molecules with AI-powered predictions and comprehensive molecular data visualization.
 
-In the project directory, you can run:
+🔗 **Live Database:** [https://Mr-Nnobody.github.io/brainroute-db](https://Mr-Nnobody.github.io/brainroute-db)
 
-### `npm start`
+## 🔗 **BrainRoute Platform:**:[BrainRoute on HuggingFace](https://huggingface.co/spaces/Nnobody/brainroute)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 📖 About BrainRoute
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+**BrainRoute Database** is part of the BrainRoute Platform ecosystem, designed to facilitate drug discovery and neuroscience research by providing:
 
-### `npm test`
+- 🔬 **Comprehensive molecular database** with BBB permeability predictions
+- 🧪 **Interactive 2D structure visualization** powered by RDKit
+- 📊 **Real-time data synchronization** with Google Sheets
+- 🤖 **AI-powered predictions** with confidence and uncertainty metrics
+- 🔍 **Advanced search capabilities** by name, SMILES, ID, or formula
+- 📈 **Detailed molecular properties** including physicochemical parameters
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### What is the Blood-Brain Barrier (BBB)?
 
-### `npm run build`
+The Blood-Brain Barrier is a selective permeability barrier that protects the brain from harmful substances while allowing essential nutrients to pass through. Understanding which molecules can cross the BBB is crucial for:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 💊 Central Nervous System (CNS) drug development
+- 🧬 Neurological disease treatment
+- 🔬 Brain-targeted therapeutic research
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## ✨ Features
 
-### `npm run eject`
+### 🎯 Core Functionality
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- **Smart Search Engine**: Find molecules by name, SMILES notation, molecular formula, or unique identifier
+- **Molecular Structure Visualization**: View interactive 2D chemical structures rendered with RDKit
+- **BBB Prediction**: AI-powered predictions (BBB+ or BBB-) with confidence scores
+- **Comprehensive Properties**: Access detailed molecular data including:
+  - Molecular weight and formula
+  - LogP (lipophilicity)
+  - Hydrogen bond donors/acceptors
+  - Topological Polar Surface Area (TPSA)
+  - Rotatable bonds and heavy atoms
+  - Physical properties (melting point, boiling point, solubility)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 🚀 Technical Features
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- **Real-time Sync**: Automatic synchronization with Google Sheets every 30 seconds
+- **Responsive Design**: Beautiful, modern UI built with Tailwind CSS
+- **Fast Navigation**: Client-side routing with React Router
+- **Production Ready**: Optimized build for GitHub Pages deployment
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 🎬 Getting Started
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Prerequisites
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Before you begin, ensure you have the following installed:
 
-### Code Splitting
+- **Node.js** (v16 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js)
+- **Git** - [Download here](https://git-scm.com/)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Installation
 
-### Analyzing the Bundle Size
+1. **Clone the repository**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+git clone https://github.com/Mr-Nnobody/brainroute-db.git
+cd brainroute-db
+```
 
-### Making a Progressive Web App
+2. **Install dependencies**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+npm install
+```
 
-### Advanced Configuration
+3. **Set up environment variables**
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Create a `.env` file in the project root:
 
-### Deployment
+```env
+REACT_APP_GOOGLE_SHEETS_API_KEY=your_google_sheets_api_key
+REACT_APP_GOOGLE_SHEET_ID=your_google_sheet_id
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**How to get a Google Sheets API key:**
 
-### `npm run build` fails to minify
+- Go to [Google Cloud Console](https://console.cloud.google.com/)
+- Create a new project or select existing one
+- Enable the Google Sheets API
+- Create credentials (API Key)
+- Restrict the key to your domain and Google Sheets API only
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+4. **Start the development server**
+
+```bash
+npm start
+```
+
+The app will open at [http://localhost:3000](http://localhost:3000)
+
+---
+
+## 🚀 Deployment
+
+### Deploy to GitHub Pages
+
+1. **Update `package.json`** with your repository information:
+
+```json
+{
+  "homepage": "https://YOUR-USERNAME.github.io/YOUR-REPO-NAME"
+}
+```
+
+2. **Build and deploy**
+
+```bash
+npm run deploy
+```
+
+3. **Configure GitHub Pages**
+   - Go to your repository → Settings → Pages
+   - Source: Select `gh-pages` branch and `/ (root)` folder
+   - Save and wait 2-3 minutes
+
+Your site will be live at: `https://YOUR-USERNAME.github.io/YOUR-REPO-NAME`
+
+---
+
+## 📊 Google Sheets Data Structure
+
+The app expects a Google Sheet with the following column structure:
+
+| Column Index | Data Type | Description                           |
+| ------------ | --------- | ------------------------------------- |
+| 1            | String    | Molecule Name                         |
+| 2            | String    | SMILES Notation                       |
+| 9            | Number    | Molecular Weight                      |
+| 86           | Number    | TPSA (Topological Polar Surface Area) |
+| 109          | Number    | Heavy Atoms Count                     |
+| 121          | Number    | H-Bond Acceptors                      |
+| 122          | Number    | H-Bond Donors                         |
+| 125          | Number    | Rotatable Bonds                       |
+| 133          | Number    | LogP                                  |
+| 220          | String    | BBB Prediction (BBB+ or BBB-)         |
+| 221          | Number    | Confidence (%)                        |
+| 222          | Number    | Uncertainty (%)                       |
+
+---
+
+## 🛠️ Built With
+
+- **[React](https://reactjs.org/)** (v19.2.0) - UI framework
+- **[React Router](https://reactrouter.com/)** (v7.9.4) - Client-side routing
+- **[Tailwind CSS](https://tailwindcss.com/)** (v3.3.0) - Styling
+- **[Lucide React](https://lucide.dev/)** - Icon library
+- **[RDKit](https://www.rdkit.org/)** - Chemical structure visualization
+- **[Google Sheets API](https://developers.google.com/sheets/api)** - Data source
+
+---
+
+## 🔒 Security
+
+- **API Key Protection**: Never commit `.env` files. Always use environment variables.
+- **API Restrictions**: Restrict your Google Sheets API key to:
+  - Specific domains (your GitHub Pages URL)
+  - Google Sheets API only
+- **Sheet Permissions**: Keep your Google Sheet private or read-only public
+
+---
+
+## 🤝 Contributing
+
+Contributions are welcome! Here's how you can help:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🌟 Acknowledgments
+
+- **BrainRoute Team** - For the AI prediction platform
+- **RDKit** - For chemical structure visualization
+- **Google Sheets API** - For real-time data integration
+- **Create React App** - For the initial project setup
+
+---
+
+## 📧 Contact & Support
+
+- **Platform**: [BrainRoute on HuggingFace](https://huggingface.co/spaces/Nnobody/NeuroGate)
+- **Issues**: [GitHub Issues](https://github.com/Mr-Nnobody/brainroute-db/issues)
+- **Website**: [BrainRoute Database](https://Mr-Nnobody.github.io/brainroute-db)
+
+---
+
+## 🔮 Future Roadmap
+
+- [ ] Add 3D molecular structure visualization
+- [ ] Implement molecule similarity search
+- [ ] Add export functionality (CSV, JSON)
+- [ ] User authentication for personalized collections
+- [ ] Advanced filtering and sorting options
+- [ ] Molecular descriptor calculator
+- [ ] Integration with PubChem and ChEMBL databases
+- [ ] Batch analysis capabilities
+
+---
+
+## 📊 Stats
+
+![GitHub Stars](https://img.shields.io/github/stars/Mr-Nnobody/brainroute-db?style=social)
+![GitHub Forks](https://img.shields.io/github/forks/Mr-Nnobody/brainroute-db?style=social)
+![GitHub Issues](https://img.shields.io/github/issues/Mr-Nnobody/brainroute-db)
+
+---
+
+<div align="center">
+
+**Made with ❤️ by the BrainRoute Team**
+
+[⬆ Back to Top](#-brainroute-database)
+
+</div>
