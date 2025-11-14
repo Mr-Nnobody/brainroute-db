@@ -689,13 +689,13 @@ const AppContent = () => {
 
       const parsedMolecules = rows.map((row, index) => {
         const baseProperties = {
-          mw: parseFloat(row[9]) || 0,
-          logp: parseFloat(row[133]) || 0,
-          hbd: parseInt(row[122]) || 0,
-          hba: parseInt(row[121]) || 0,
-          tpsa: parseFloat(row[86]) || 0,
-          rotatable_bonds: parseInt(row[125]) || 0,
-          heavy_atoms: parseInt(row[109]) || 0,
+          mw: parseFloat(row[10]) || 0,
+          logp: parseFloat(row[134]) || 0,
+          hbd: parseInt(row[123]) || 0,
+          hba: parseInt(row[122]) || 0,
+          tpsa: parseFloat(row[87]) || 0,
+          rotatable_bonds: parseInt(row[126]) || 0,
+          heavy_atoms: parseInt(row[110]) || 0,
         };
 
         const physicalProps = estimatePhysicalProperties({
@@ -708,9 +708,9 @@ const AppContent = () => {
           smiles: row[2] || "",
           formula: row[2] || "",
           weight: baseProperties.mw,
-          prediction: row[220] || "N/A",
-          confidence: parseFloat(row[221]) || 0,
-          uncertainty: parseFloat(row[222]) || 0,
+          prediction: row[221] || "N/A",
+          confidence: parseFloat(row[222]) || 0,
+          uncertainty: parseFloat(row[223]) || 0,
           properties: {
             ...baseProperties,
             ...physicalProps,
