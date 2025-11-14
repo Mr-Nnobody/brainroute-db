@@ -87,6 +87,7 @@ Create a `.env` file in the project root:
 ```env
 REACT_APP_GOOGLE_SHEETS_API_KEY=your_google_sheets_api_key
 REACT_APP_GOOGLE_SHEET_ID=your_google_sheet_id
+REACT_APP_GOOGLE_SHEET_RANGE=your_sheet_range
 ```
 
 **How to get a Google Sheets API key:**
