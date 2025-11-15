@@ -706,7 +706,7 @@ const AppContent = () => {
           id: `MOL-${String(index + 1).padStart(3, "0")}`,
           name: row[1] || "Unknown",
           smiles: row[2] || "",
-          formula: row[2] || "",
+          formula: row[3] || "",
           weight: baseProperties.mw,
           prediction: row[221] || "N/A",
           confidence: parseFloat(row[222]) || 0,
